@@ -44,7 +44,7 @@ const Header = () => {
         
         <div className="flex items-center gap-3">
           <Link
-            to="/interview"
+            to="/waitlist"
             className={cn(
               "px-4 py-2 rounded-full font-medium text-sm transition-all",
               "bg-auditor-500 text-white hover:bg-auditor-600",

@@ -71,7 +71,7 @@ const Index = () => {
             
             <div className="mt-12 text-center">
               <Link 
-                to="/interview" 
+                to="/waitlist" 
                 className={cn(
                   "px-8 py-3 rounded-full font-medium transition-all inline-flex items-center gap-2",
                   "bg-auditor-500 text-white hover:bg-auditor-600",
@@ -131,7 +131,7 @@ const Index = () => {
                     </p>
                     <div>
                       <Link 
-                        to="/interview" 
+                        to="/waitlist" 
                         className={cn(
                           "px-8 py-3 rounded-full font-medium transition-all inline-flex items-center gap-2",
                           "bg-auditor-500 text-white hover:bg-auditor-600",
