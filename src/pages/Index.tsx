@@ -57,9 +57,9 @@ const Index = () => {
         <section className="py-20 px-6">
           <div className="container mx-auto max-w-7xl">
             <div className="text-center mb-16 space-y-4">
-              <h2 className="text-3xl md:text-4xl font-bold">Expert Interview Tips</h2>
+              <h2 className="text-3xl md:text-4xl font-bold">AI-Powered Interview Mastery</h2>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-                Elevate your interview performance with these professional insights
+                Our AI coach is trained on thousands of real audit interviews to help you land your dream job
               </p>
             </div>
             
