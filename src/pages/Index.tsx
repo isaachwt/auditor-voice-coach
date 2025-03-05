@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { getTips } from "@/lib/analysis";
 import TipCard from "@/components/TipCard";
+import RecruitmentCallCTA from "@/components/RecruitmentCallCTA";
 
 const Index = () => {
   const tips = getTips();
@@ -120,7 +121,7 @@ const Index = () => {
         {/* CTA Section */}
         <section className="py-20 px-6">
           <div className="container mx-auto max-w-7xl">
-            <Card className="glass-panel overflow-hidden">
+            <Card className="glass-panel overflow-hidden mb-12">
               <CardContent className="p-0">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="p-8 md:p-12 flex flex-col justify-center">
@@ -175,6 +176,18 @@ const Index = () => {
                 </div>
               </CardContent>
             </Card>
+            
+            {/* New Mock Recruiter Call CTA */}
+            <div className="mt-12 text-center mb-8">
+              <h2 className="text-3xl font-bold mb-6">Take Your Preparation to the Next Level</h2>
+              <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
+                After practicing with our AI, get real human feedback from a mock recruiter call
+              </p>
+            </div>
+            
+            <div className="max-w-xl mx-auto">
+              <RecruitmentCallCTA />
+            </div>
           </div>
         </section>
       </main>
