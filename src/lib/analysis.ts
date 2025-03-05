@@ -39,43 +39,43 @@ export const analyzeResponse = (audioBlob: Blob): Promise<FeedbackData> => {
 export const getTips = () => {
   return [
     {
-      title: "Master the Technical Vocabulary",
-      content: "Use precise auditing and accounting terminology. Be specific about standards (IFRS, GAAP), audit procedures, and control frameworks (COSO).",
+      title: "Use Specific Audit Terms",
+      content: "Mention specific accounting standards and audit procedures you've used. Say 'I performed substantive testing' instead of 'I checked the numbers.'",
       category: "technical" as const
     },
     {
-      title: "Structure Your Responses",
-      content: "Use the STAR method (Situation, Task, Action, Result) for behavioral questions to keep responses organized and relevant.",
+      title: "Keep It Simple and Clear",
+      content: "Use a clear format: state the situation, what you did, and what the outcome was. Avoid rambling or going off-topic.",
       category: "behavioral" as const
     },
     {
-      title: "Show Your Analytical Thinking",
-      content: "When discussing audit cases, walk through your thought process systematically: risk assessment, evidence gathering, evaluation, and conclusion.",
+      title: "Show Problem-Solving Steps",
+      content: "Describe how you identify issues, gather information, and reach conclusions. Be specific about your approach to audit problems.",
       category: "technical" as const
     },
     {
-      title: "Demonstrate Professional Skepticism",
-      content: "Show how you maintain an questioning mindset while remaining objective and unbiased in your work.",
+      title: "Be Honest About Limitations",
+      content: "If you don't know something, say so directly. Explain how you'd find the answer rather than guessing or being vague.",
       category: "general" as const
     },
     {
-      title: "Highlight Adaptability",
-      content: "Big 4 firms value adaptability. Share examples of how you've navigated change, learned new skills, or adjusted to different client environments.",
+      title: "Give Real Examples Briefly",
+      content: "When asked about experience, give one clear example instead of listing many. Focus on your specific contribution and the result.",
       category: "behavioral" as const
     },
     {
-      title: "Speak Confidently",
-      content: "Maintain good posture, speak at a measured pace, and use a confident tone. Avoid filler words and tentative language.",
+      title: "Speak Clearly and Confidently",
+      content: "Maintain eye contact, speak at a steady pace, and avoid filler words like 'um' and 'like'. Practice your key talking points.",
       category: "presentation" as const
     },
     {
-      title: "Show Client Management Skills",
-      content: "Emphasize your ability to build relationships, communicate effectively with clients, and handle difficult conversations professionally.",
+      title: "Explain How You Handle Clients",
+      content: "Describe a time you handled a difficult client situation. Focus on how you communicated and resolved the issue professionally.",
       category: "behavioral" as const
     },
     {
-      title: "Prepare Industry Knowledge",
-      content: "Research current audit trends, regulatory changes, and technological innovations affecting the profession to demonstrate your commitment.",
+      title: "Stay Current on Industry News",
+      content: "Mention recent regulatory changes or industry developments to show you're engaged with the profession beyond just your job.",
       category: "general" as const
     }
   ];
