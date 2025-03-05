@@ -179,9 +179,10 @@ const Index = () => {
             
             {/* New Mock Recruiter Call CTA */}
             <div className="mt-12 text-center mb-8">
-              <h2 className="text-3xl font-bold mb-6">Take Your Preparation to the Next Level</h2>
+              <h2 className="text-3xl font-bold mb-6">Get a Free Interview Analysis</h2>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
-                After practicing with our AI, get real human feedback from a mock recruiter call
+                Schedule a 30-minute call with our AI recruiters trained to mimic real interviews. 
+                Receive personalized feedback completely free of charge.
               </p>
             </div>
             

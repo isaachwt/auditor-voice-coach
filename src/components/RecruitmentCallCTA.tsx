@@ -22,7 +22,7 @@ const RecruitmentCallCTA = () => {
       setPhoneNumber("");
       toast({
         title: "Success!",
-        description: "A mock recruiter will call you shortly. Be prepared!",
+        description: "Your free 30-minute interview analysis call has been scheduled. Get ready to receive expert feedback!",
         duration: 5000,
       });
     }, 1500);
@@ -36,12 +36,12 @@ const RecruitmentCallCTA = () => {
             <div className="w-10 h-10 rounded-full bg-auditor-100 flex items-center justify-center text-auditor-700">
               <Phone size={20} />
             </div>
-            <h3 className="text-xl font-semibold">Get a Real Mock Interview Call</h3>
+            <h3 className="text-xl font-semibold">Schedule Your Free Analysis Call</h3>
           </div>
           
           <p className="text-muted-foreground">
-            Enter your phone number below to receive a call from one of our mock recruiters. 
-            Experience a real interview scenario and test your preparation.
+            Enter your phone number below to schedule a 30-minute call with our AI recruiters.
+            Experience a realistic interview and receive valuable feedback at no cost.
           </p>
           
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -69,13 +69,13 @@ const RecruitmentCallCTA = () => {
               )}
               disabled={isSubmitting}
             >
-              {isSubmitting ? "Scheduling..." : "Schedule Mock Interview Call"}
+              {isSubmitting ? "Scheduling..." : "Schedule Free Analysis Call"}
               <Phone size={16} />
             </Button>
           </form>
           
           <p className="text-xs text-muted-foreground">
-            By submitting your number, you agree to receive a phone call from our mock recruitment service. 
+            By submitting your number, you agree to receive a phone call from our AI interview analysis service. 
             Your information will not be used for any other purpose.
           </p>
         </div>
