@@ -39,43 +39,43 @@ export const analyzeResponse = (audioBlob: Blob): Promise<FeedbackData> => {
 export const getTips = () => {
   return [
     {
-      title: "Use Specific Audit Terms",
-      content: "Mention specific accounting standards and audit procedures you've used. Say 'I performed substantive testing' instead of 'I checked the numbers.'",
+      title: "AI Detects Your Technical Language",
+      content: "Our AI analyzes your use of audit terminology and suggests improvements. It identifies when you use vague terms instead of specific audit procedures or standards.",
       category: "technical" as const
     },
     {
-      title: "Keep It Simple and Clear",
-      content: "Use a clear format: state the situation, what you did, and what the outcome was. Avoid rambling or going off-topic.",
+      title: "AI Improves Your Response Structure",
+      content: "The AI coach identifies when your answers lack organization and helps you structure responses with clear beginnings, middles, and conclusions.",
       category: "behavioral" as const
     },
     {
-      title: "Show Problem-Solving Steps",
-      content: "Describe how you identify issues, gather information, and reach conclusions. Be specific about your approach to audit problems.",
+      title: "AI Analyzes Your Problem-Solving Logic",
+      content: "Our AI evaluates how you approach audit scenarios, identifying gaps in your reasoning and suggesting more thorough analytical approaches.",
       category: "technical" as const
     },
     {
-      title: "Be Honest About Limitations",
-      content: "If you don't know something, say so directly. Explain how you'd find the answer rather than guessing or being vague.",
+      title: "AI Finds Knowledge Gaps",
+      content: "The AI identifies areas where your knowledge seems uncertain and provides targeted resources to strengthen your understanding before the real interview.",
       category: "general" as const
     },
     {
-      title: "Give Real Examples Briefly",
-      content: "When asked about experience, give one clear example instead of listing many. Focus on your specific contribution and the result.",
+      title: "AI Measures Your Concrete Examples",
+      content: "Our AI evaluates whether your examples are specific and relevant, helping you replace vague statements with compelling stories from your experience.",
       category: "behavioral" as const
     },
     {
-      title: "Speak Clearly and Confidently",
-      content: "Maintain eye contact, speak at a steady pace, and avoid filler words like 'um' and 'like'. Practice your key talking points.",
+      title: "AI Evaluates Your Speaking Confidence",
+      content: "The AI analyzes your speech patterns, pace, and filler words, providing personalized feedback to improve your verbal delivery.",
       category: "presentation" as const
     },
     {
-      title: "Explain How You Handle Clients",
-      content: "Describe a time you handled a difficult client situation. Focus on how you communicated and resolved the issue professionally.",
+      title: "AI Assesses Client Interaction Skills",
+      content: "Our AI evaluates how you describe client interactions, suggesting improvements to demonstrate stronger relationship management abilities.",
       category: "behavioral" as const
     },
     {
-      title: "Stay Current on Industry News",
-      content: "Mention recent regulatory changes or industry developments to show you're engaged with the profession beyond just your job.",
+      title: "AI Checks Industry Knowledge Currency",
+      content: "The AI identifies when you mention outdated regulations or miss recent developments, helping you stay current on audit industry trends.",
       category: "general" as const
     }
   ];
