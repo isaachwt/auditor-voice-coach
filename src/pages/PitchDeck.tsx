@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -52,7 +51,7 @@ const PitchDeck = () => {
             <CardContent className="pt-6">
               <div className="flex items-center mb-4">
                 <div className="p-3 bg-red-100 rounded-full mr-3">
-                  <LightBulb className="h-6 w-6 text-red-500" />
+                  <Lightbulb className="h-6 w-6 text-red-500" />
                 </div>
                 <h2 className="text-2xl font-bold">The Problem</h2>
               </div>
@@ -283,7 +282,7 @@ const PitchDeck = () => {
 
             <div className="flex gap-4">
               <div className="flex-shrink-0 w-12 h-12 bg-auditor-100 rounded-full flex items-center justify-center">
-                <LightBulb className="h-6 w-6 text-auditor-600" />
+                <Lightbulb className="h-6 w-6 text-auditor-600" />
               </div>
               <div>
                 <h3 className="text-xl font-bold mb-2">Realistic Simulation</h3>
