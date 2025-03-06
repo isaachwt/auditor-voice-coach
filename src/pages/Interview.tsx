@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
@@ -32,7 +31,9 @@ const Interview = () => {
   const [isListening, setIsListening] = useState(false);
   const [questions, setQuestions] = useState<Question[]>([]);
   const [elevenLabsApiKey, setElevenLabsApiKey] = useState<string>("");
-  const [apiKeyProvided, setApiKeyProvided] = useState<boolean>(false);
+  
+  // No need for apiKeyProvided state since we're providing it automatically
+  const apiKeyProvided = true;
 
   // Audio context for TTS
   const audioContextRef = useRef<AudioContext | null>(null);
@@ -53,7 +54,6 @@ const Interview = () => {
   // Handle API key submission
   const handleApiKeySubmit = (key: string) => {
     setElevenLabsApiKey(key);
-    setApiKeyProvided(!!key);
   };
   
   // Play TTS audio
@@ -100,15 +100,6 @@ const Interview = () => {
   
   // Handle starting the interview with the selected configuration
   const handleStartInterview = async (interviewConfig: InterviewConfig) => {
-    if (!apiKeyProvided) {
-      toast({
-        title: "API Key Required",
-        description: "Please provide your ElevenLabs API key to start the interview.",
-        variant: "destructive",
-      });
-      return;
-    }
-    
     setIsProcessing(true);
     
     try {
@@ -273,15 +264,13 @@ const Interview = () => {
               The AI will ask you 5 questions, listen to your responses, and provide detailed feedback.
             </p>
             
-            {/* ElevenLabs API Key Component */}
+            {/* ElevenLabs API Key Component - now just shows info */}
             <div className="mb-8">
               <ElevenLabsApiKey onKeySubmit={handleApiKeySubmit} />
             </div>
             
-            {/* Only show interview setup if API key is provided */}
-            {apiKeyProvided && (
-              <InterviewSetup onStart={handleStartInterview} isProcessing={isProcessing} />
-            )}
+            {/* Show interview setup immediately since API key is provided */}
+            <InterviewSetup onStart={handleStartInterview} isProcessing={isProcessing} />
           </div>
         ) : (
           <div className="max-w-3xl mx-auto space-y-8">

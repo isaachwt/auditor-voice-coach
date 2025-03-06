@@ -1,3 +1,4 @@
+
 import { toast } from "@/hooks/use-toast";
 
 // Types for our API responses
@@ -132,8 +133,8 @@ export const generateFeedback = async (responses: Blob[]): Promise<AIFeedbackRes
 export const textToSpeech = async (text: string, apiKey?: string): Promise<AudioBuffer | null> => {
   try {
     if (!apiKey) {
-      console.warn("ElevenLabs API key not provided");
-      return null;
+      console.warn("ElevenLabs API key not provided, using hardcoded key");
+      apiKey = "sk_a3a128908bc8c1eac0f6a149b761367477da7b88dfa9ee35";
     }
 
     // Create headers with API key
@@ -176,7 +177,7 @@ export const textToSpeech = async (text: string, apiKey?: string): Promise<Audio
     console.error("Text to speech error:", error);
     toast({
       title: "Text-to-Speech Error",
-      description: "Failed to generate speech. Please check your API key.",
+      description: "Failed to generate speech. Please check the API connection.",
       variant: "destructive",
     });
     return null;
