@@ -1,15 +1,11 @@
 
 import React, { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Separator } from "@/components/ui/separator";
-import { cn } from "@/lib/utils";
-
-interface InterviewSetupProps {
-  onStart: (config: InterviewConfig) => void;
-}
+import { Checkbox } from "@/components/ui/checkbox";
 
 export interface InterviewConfig {
   level: "entry" | "experienced" | "senior";
@@ -17,234 +13,218 @@ export interface InterviewConfig {
   focusAreas: string[];
 }
 
-const InterviewSetup: React.FC<InterviewSetupProps> = ({ onStart }) => {
+interface InterviewSetupProps {
+  onStart: (config: InterviewConfig) => void;
+  isProcessing?: boolean;
+}
+
+const InterviewSetup: React.FC<InterviewSetupProps> = ({ 
+  onStart,
+  isProcessing = false
+}) => {
   const [level, setLevel] = useState<"entry" | "experienced" | "senior">("entry");
   const [duration, setDuration] = useState<"short" | "medium" | "comprehensive">("medium");
-  const [focusAreas, setFocusAreas] = useState<string[]>(["technical"]);
+  const [focusAreas, setFocusAreas] = useState<string[]>(["technical", "behavioral"]);
   
-  const toggleFocusArea = (area: string) => {
+  const handleFocusAreaChange = (area: string) => {
     if (focusAreas.includes(area)) {
-      setFocusAreas(focusAreas.filter(a => a !== area));
+      setFocusAreas(focusAreas.filter(item => item !== area));
     } else {
       setFocusAreas([...focusAreas, area]);
     }
   };
   
-  const handleStart = () => {
+  const handleStartInterview = () => {
+    // Ensure at least one focus area is selected
     if (focusAreas.length === 0) {
-      setFocusAreas(["technical"]);
+      alert("Please select at least one focus area.");
       return;
     }
     
-    onStart({
-      level,
-      duration,
-      focusAreas
-    });
+    onStart({ level, duration, focusAreas });
   };
   
   return (
-    <div className="w-full max-w-4xl mx-auto p-6 animate-fade-in">
-      <Card className="glass-panel">
-        <CardHeader>
-          <CardTitle className="text-2xl font-bold">Customize Your Interview</CardTitle>
-          <CardDescription>
-            Configure your mock interview experience to match your preparation needs
-          </CardDescription>
-        </CardHeader>
-        
-        <CardContent className="space-y-8">
-          {/* Experience Level */}
-          <div className="space-y-4">
-            <Label className="text-base font-medium">Experience Level</Label>
-            <RadioGroup
-              value={level}
-              onValueChange={(value) => setLevel(value as "entry" | "experienced" | "senior")}
-              className="grid grid-cols-1 md:grid-cols-3 gap-4"
+    <Card className="glass-panel">
+      <CardContent className="p-6 sm:p-8">
+        <div className="space-y-6">
+          <h2 className="text-2xl font-semibold text-center sm:text-left">Customize Your Interview</h2>
+          
+          <Tabs defaultValue="level" className="w-full">
+            <TabsList className="grid grid-cols-3 mb-6">
+              <TabsTrigger value="level">Experience Level</TabsTrigger>
+              <TabsTrigger value="duration">Duration</TabsTrigger>
+              <TabsTrigger value="focus">Focus Areas</TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="level" className="p-4 border rounded-md">
+              <div className="space-y-4">
+                <h3 className="text-lg font-medium">Select Your Experience Level</h3>
+                <p className="text-sm text-muted-foreground">
+                  We'll tailor the interview questions to match your experience level.
+                </p>
+                
+                <RadioGroup 
+                  value={level} 
+                  onValueChange={(value) => setLevel(value as "entry" | "experienced" | "senior")}
+                  className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2"
+                >
+                  <div className="rounded-lg border p-4 cursor-pointer hover:border-auditor-200 dark:hover:border-auditor-800">
+                    <RadioGroupItem value="entry" id="entry" className="sr-only" />
+                    <Label htmlFor="entry" className="cursor-pointer w-full">
+                      <div className="font-medium mb-1">Entry Level</div>
+                      <div className="text-sm text-muted-foreground">0-2 years experience</div>
+                    </Label>
+                  </div>
+                  
+                  <div className="rounded-lg border p-4 cursor-pointer hover:border-auditor-200 dark:hover:border-auditor-800">
+                    <RadioGroupItem value="experienced" id="experienced" className="sr-only" />
+                    <Label htmlFor="experienced" className="cursor-pointer w-full">
+                      <div className="font-medium mb-1">Experienced</div>
+                      <div className="text-sm text-muted-foreground">3-5 years experience</div>
+                    </Label>
+                  </div>
+                  
+                  <div className="rounded-lg border p-4 cursor-pointer hover:border-auditor-200 dark:hover:border-auditor-800">
+                    <RadioGroupItem value="senior" id="senior" className="sr-only" />
+                    <Label htmlFor="senior" className="cursor-pointer w-full">
+                      <div className="font-medium mb-1">Senior</div>
+                      <div className="text-sm text-muted-foreground">6+ years experience</div>
+                    </Label>
+                  </div>
+                </RadioGroup>
+              </div>
+            </TabsContent>
+            
+            <TabsContent value="duration" className="p-4 border rounded-md">
+              <div className="space-y-4">
+                <h3 className="text-lg font-medium">Interview Duration</h3>
+                <p className="text-sm text-muted-foreground">
+                  Choose how long you want your practice interview to be.
+                </p>
+                
+                <RadioGroup 
+                  value={duration} 
+                  onValueChange={(value) => setDuration(value as "short" | "medium" | "comprehensive")}
+                  className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2"
+                >
+                  <div className="rounded-lg border p-4 cursor-pointer hover:border-auditor-200 dark:hover:border-auditor-800">
+                    <RadioGroupItem value="short" id="short" className="sr-only" />
+                    <Label htmlFor="short" className="cursor-pointer w-full">
+                      <div className="font-medium mb-1">Short</div>
+                      <div className="text-sm text-muted-foreground">3 questions (~10 min)</div>
+                    </Label>
+                  </div>
+                  
+                  <div className="rounded-lg border p-4 cursor-pointer hover:border-auditor-200 dark:hover:border-auditor-800">
+                    <RadioGroupItem value="medium" id="medium" className="sr-only" />
+                    <Label htmlFor="medium" className="cursor-pointer w-full">
+                      <div className="font-medium mb-1">Medium</div>
+                      <div className="text-sm text-muted-foreground">5 questions (~15 min)</div>
+                    </Label>
+                  </div>
+                  
+                  <div className="rounded-lg border p-4 cursor-pointer hover:border-auditor-200 dark:hover:border-auditor-800">
+                    <RadioGroupItem value="comprehensive" id="comprehensive" className="sr-only" />
+                    <Label htmlFor="comprehensive" className="cursor-pointer w-full">
+                      <div className="font-medium mb-1">Comprehensive</div>
+                      <div className="text-sm text-muted-foreground">8 questions (~25 min)</div>
+                    </Label>
+                  </div>
+                </RadioGroup>
+              </div>
+            </TabsContent>
+            
+            <TabsContent value="focus" className="p-4 border rounded-md">
+              <div className="space-y-4">
+                <h3 className="text-lg font-medium">Focus Areas</h3>
+                <p className="text-sm text-muted-foreground">
+                  Select the types of questions you want to practice. Choose at least one.
+                </p>
+                
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                  <div className="flex items-start space-x-3">
+                    <Checkbox 
+                      id="technical" 
+                      checked={focusAreas.includes("technical")}
+                      onCheckedChange={() => handleFocusAreaChange("technical")}
+                    />
+                    <div className="grid gap-1.5">
+                      <Label htmlFor="technical" className="font-medium">Technical</Label>
+                      <p className="text-sm text-muted-foreground">
+                        Auditing procedures, accounting standards, and technical knowledge
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start space-x-3">
+                    <Checkbox 
+                      id="behavioral" 
+                      checked={focusAreas.includes("behavioral")}
+                      onCheckedChange={() => handleFocusAreaChange("behavioral")}
+                    />
+                    <div className="grid gap-1.5">
+                      <Label htmlFor="behavioral" className="font-medium">Behavioral</Label>
+                      <p className="text-sm text-muted-foreground">
+                        Teamwork, client interaction, and professional conduct
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start space-x-3">
+                    <Checkbox 
+                      id="case" 
+                      checked={focusAreas.includes("case")}
+                      onCheckedChange={() => handleFocusAreaChange("case")}
+                    />
+                    <div className="grid gap-1.5">
+                      <Label htmlFor="case" className="font-medium">Case Studies</Label>
+                      <p className="text-sm text-muted-foreground">
+                        Problem-solving scenarios and audit case discussions
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start space-x-3">
+                    <Checkbox 
+                      id="industry" 
+                      checked={focusAreas.includes("industry")}
+                      onCheckedChange={() => handleFocusAreaChange("industry")}
+                    />
+                    <div className="grid gap-1.5">
+                      <Label htmlFor="industry" className="font-medium">Industry Knowledge</Label>
+                      <p className="text-sm text-muted-foreground">
+                        Industry-specific regulations and current trends
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </TabsContent>
+          </Tabs>
+          
+          <div className="pt-4 flex justify-center">
+            <Button 
+              onClick={handleStartInterview}
+              disabled={focusAreas.length === 0 || isProcessing}
+              className="w-full sm:w-auto bg-auditor-500 hover:bg-auditor-600 text-white"
             >
-              <LevelOption 
-                value="entry" 
-                title="Entry Level"
-                description="0-2 years of experience"
-                currentValue={level}
-              />
-              <LevelOption 
-                value="experienced" 
-                title="Experienced"
-                description="3-5 years of experience"
-                currentValue={level}
-              />
-              <LevelOption 
-                value="senior" 
-                title="Senior"
-                description="6+ years of experience"
-                currentValue={level}
-              />
-            </RadioGroup>
+              {isProcessing ? (
+                <>
+                  <span className="mr-2">Initializing Interview</span>
+                  <span className="relative flex h-3 w-3">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
+                  </span>
+                </>
+              ) : (
+                'Start Interview'
+              )}
+            </Button>
           </div>
-          
-          <Separator />
-          
-          {/* Interview Duration */}
-          <div className="space-y-4">
-            <Label className="text-base font-medium">Interview Duration</Label>
-            <RadioGroup
-              value={duration}
-              onValueChange={(value) => setDuration(value as "short" | "medium" | "comprehensive")}
-              className="grid grid-cols-1 md:grid-cols-3 gap-4"
-            >
-              <DurationOption 
-                value="short" 
-                title="Short"
-                description="3-5 questions (15 min)"
-                currentValue={duration}
-              />
-              <DurationOption 
-                value="medium" 
-                title="Medium"
-                description="5-8 questions (25 min)"
-                currentValue={duration}
-              />
-              <DurationOption 
-                value="comprehensive" 
-                title="Comprehensive"
-                description="10+ questions (40 min)"
-                currentValue={duration}
-              />
-            </RadioGroup>
-          </div>
-          
-          <Separator />
-          
-          {/* Focus Areas */}
-          <div className="space-y-4">
-            <Label className="text-base font-medium">Focus Areas (Select at least one)</Label>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-              <FocusAreaChip
-                title="Technical" 
-                selected={focusAreas.includes("technical")}
-                onClick={() => toggleFocusArea("technical")}
-              />
-              <FocusAreaChip
-                title="Behavioral" 
-                selected={focusAreas.includes("behavioral")}
-                onClick={() => toggleFocusArea("behavioral")}
-              />
-              <FocusAreaChip
-                title="Case Studies" 
-                selected={focusAreas.includes("case")}
-                onClick={() => toggleFocusArea("case")}
-              />
-              <FocusAreaChip
-                title="Industry Knowledge" 
-                selected={focusAreas.includes("industry")}
-                onClick={() => toggleFocusArea("industry")}
-              />
-            </div>
-          </div>
-        </CardContent>
-        
-        <CardFooter>
-          <Button 
-            onClick={handleStart}
-            className="w-full bg-auditor-500 hover:bg-auditor-600 text-white"
-          >
-            Start Mock Interview
-          </Button>
-        </CardFooter>
-      </Card>
-    </div>
-  );
-};
-
-interface LevelOptionProps {
-  value: string;
-  title: string;
-  description: string;
-  currentValue: string;
-}
-
-const LevelOption: React.FC<LevelOptionProps> = ({ 
-  value, title, description, currentValue 
-}) => {
-  const isSelected = value === currentValue;
-  
-  return (
-    <Label
-      htmlFor={`level-${value}`}
-      className={cn(
-        "relative flex flex-col p-4 cursor-pointer rounded-lg transition-all",
-        isSelected 
-          ? "bg-auditor-50 dark:bg-auditor-950/50 border-auditor-300 dark:border-auditor-800" 
-          : "border hover:border-auditor-200 dark:hover:border-auditor-800"
-      )}
-    >
-      <RadioGroupItem
-        value={value}
-        id={`level-${value}`}
-        className="absolute right-4 top-4 h-5 w-5"
-      />
-      <div className="font-medium mb-1">{title}</div>
-      <div className="text-sm text-muted-foreground">{description}</div>
-    </Label>
-  );
-};
-
-interface DurationOptionProps {
-  value: string;
-  title: string;
-  description: string;
-  currentValue: string;
-}
-
-const DurationOption: React.FC<DurationOptionProps> = ({ 
-  value, title, description, currentValue 
-}) => {
-  const isSelected = value === currentValue;
-  
-  return (
-    <Label
-      htmlFor={`duration-${value}`}
-      className={cn(
-        "relative flex flex-col p-4 cursor-pointer rounded-lg transition-all",
-        isSelected 
-          ? "bg-auditor-50 dark:bg-auditor-950/50 border-auditor-300 dark:border-auditor-800" 
-          : "border hover:border-auditor-200 dark:hover:border-auditor-800"
-      )}
-    >
-      <RadioGroupItem
-        value={value}
-        id={`duration-${value}`}
-        className="absolute right-4 top-4 h-5 w-5"
-      />
-      <div className="font-medium mb-1">{title}</div>
-      <div className="text-sm text-muted-foreground">{description}</div>
-    </Label>
-  );
-};
-
-interface FocusAreaChipProps {
-  title: string;
-  selected: boolean;
-  onClick: () => void;
-}
-
-const FocusAreaChip: React.FC<FocusAreaChipProps> = ({ 
-  title, selected, onClick 
-}) => {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={cn(
-        "py-2 px-4 rounded-full text-sm font-medium transition-all",
-        selected 
-          ? "bg-auditor-100 text-auditor-700 dark:bg-auditor-900 dark:text-auditor-300" 
-          : "bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
-      )}
-    >
-      {title}
-    </button>
+        </div>
+      </CardContent>
+    </Card>
   );
 };
 
