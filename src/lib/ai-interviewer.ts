@@ -129,13 +129,23 @@ export const generateFeedback = async (responses: Blob[]): Promise<AIFeedbackRes
   }
 };
 
-// Function to convert text to speech (mock implementation)
+// Text to speech function using AudioContext
 export const textToSpeech = async (text: string): Promise<AudioBuffer | null> => {
   try {
-    // In a real implementation, this would call a TTS API
-    // For demo purposes, we'll just log the text
+    // Mock implementation for now
     console.log("TTS would say:", text);
-    return null;
+    
+    // In a real implementation, this would call the ElevenLabs API
+    // For now, we just create a dummy audio context to test our types
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    const audioContext = new AudioContextClass();
+    
+    // Just creating an empty buffer for demonstration
+    const emptyBuffer = await audioContext.decodeAudioData(
+      new ArrayBuffer(0) // Empty buffer
+    ).catch(() => null);
+    
+    return emptyBuffer;
   } catch (error) {
     console.error("Text to speech error:", error);
     return null;

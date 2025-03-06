@@ -33,6 +33,58 @@ const Interview = () => {
 
   // Audio context for TTS
   const audioContextRef = useRef<AudioContext | null>(null);
+  const audioSourceRef = useRef<AudioBufferSourceNode | null>(null);
+  
+  // Clean up audio on unmount
+  useEffect(() => {
+    return () => {
+      if (audioSourceRef.current) {
+        audioSourceRef.current.stop();
+      }
+      if (audioContextRef.current) {
+        audioContextRef.current.close();
+      }
+    };
+  }, []);
+  
+  // Play TTS audio
+  const playAudio = async (audioBuffer: AudioBuffer | null) => {
+    if (!audioBuffer) return;
+    
+    try {
+      // Create audio context if it doesn't exist
+      if (!audioContextRef.current) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        audioContextRef.current = new AudioContextClass();
+      }
+      
+      // Stop any currently playing audio
+      if (audioSourceRef.current) {
+        audioSourceRef.current.stop();
+      }
+      
+      // Create a new source
+      const source = audioContextRef.current.createBufferSource();
+      source.buffer = audioBuffer;
+      source.connect(audioContextRef.current.destination);
+      
+      // Set up ended callback
+      source.onended = () => {
+        setIsAiSpeaking(false);
+        audioSourceRef.current = null;
+      };
+      
+      // Store the source for later cleanup
+      audioSourceRef.current = source;
+      
+      // Play the audio
+      source.start();
+      setIsAiSpeaking(true);
+    } catch (error) {
+      console.error("Error playing audio:", error);
+      setIsAiSpeaking(false);
+    }
+  };
   
   // Handle starting the interview with the selected configuration
   const handleStartInterview = async (interviewConfig: InterviewConfig) => {
@@ -48,11 +100,6 @@ const Interview = () => {
         interviewConfig.focusAreas
       );
       
-      // Set up the audio context
-      if (!audioContextRef.current) {
-        audioContextRef.current = new AudioContext();
-      }
-      
       // Prepare the interview state
       setCurrentQuestion(firstQuestion);
       setCurrentQuestionIndex(1); // Starting with first question
@@ -66,13 +113,10 @@ const Interview = () => {
       );
       setQuestions(mockQuestions);
       
-      // Play the first question (in a real implementation)
+      // Play the first question using TTS
       setIsAiSpeaking(true);
       const audioBuffer = await textToSpeech(firstQuestion);
-      if (audioBuffer && audioContextRef.current) {
-        // Play audio would go here
-      }
-      setIsAiSpeaking(false);
+      await playAudio(audioBuffer);
       
       // Start the interview
       setInterviewStarted(true);
@@ -130,13 +174,10 @@ const Interview = () => {
       setCurrentQuestion(response.question);
       setCurrentQuestionIndex(currentQuestionIndex + 1);
       
-      // Play the next question
+      // Play the next question using TTS
       setIsAiSpeaking(true);
       const audioBuffer = await textToSpeech(response.question);
-      if (audioBuffer && audioContextRef.current) {
-        // Play audio would go here
-      }
-      setIsAiSpeaking(false);
+      await playAudio(audioBuffer);
       
       setIsProcessing(false);
     } catch (error) {
@@ -185,6 +226,12 @@ const Interview = () => {
     setIsProcessing(false);
     setIsAiSpeaking(false);
     setIsListening(false);
+    
+    // Stop any playing audio
+    if (audioSourceRef.current) {
+      audioSourceRef.current.stop();
+      audioSourceRef.current = null;
+    }
   };
   
   // Calculate progress percentage
