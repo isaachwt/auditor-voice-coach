@@ -1,15 +1,36 @@
-import { useLocation } from "react-router-dom";
+
+import { useLocation, Navigate } from "react-router-dom";
 import { useEffect } from "react";
 
 const NotFound = () => {
   const location = useLocation();
+  const pathname = location.pathname;
+
+  // List of valid routes in the application
+  const validRoutes = [
+    "/",
+    "/waitlist",
+    "/interview",
+    "/results",
+    "/leaderboard"
+  ];
+
+  // Check if the current path is a valid route
+  const isValidRoute = validRoutes.includes(pathname);
 
   useEffect(() => {
-    console.error(
-      "404 Error: User attempted to access non-existent route:",
-      location.pathname
-    );
-  }, [location.pathname]);
+    if (!isValidRoute) {
+      console.error(
+        "404 Error: User attempted to access non-existent route:",
+        pathname
+      );
+    }
+  }, [pathname, isValidRoute]);
+
+  // If it's a valid route, navigate to it
+  if (isValidRoute) {
+    return <Navigate to={pathname} replace />;
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
