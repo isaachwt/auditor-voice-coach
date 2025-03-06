@@ -1,8 +1,10 @@
+
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import InterviewSetup, { InterviewConfig } from "@/components/InterviewSetup";
 import VoiceRecorder from "@/components/VoiceRecorder";
+import WebcamView from "@/components/WebcamView";
 import QuestionCard from "@/components/QuestionCard";
 import ElevenLabsApiKey from "@/components/ElevenLabsApiKey";
 import { Button } from "@/components/ui/button";
@@ -303,6 +305,12 @@ const Interview = () => {
               category={questions[currentQuestionIndex - 1]?.category || "technical"}
             />
             
+            {/* Webcam view - New component */}
+            <WebcamView
+              isRecording={isRecording}
+              isActive={!isProcessing && !isAiSpeaking}
+            />
+            
             {/* Voice recorder */}
             <Card className="glass-panel">
               <CardContent className="p-6">
@@ -343,6 +351,10 @@ const Interview = () => {
                 <li className="flex items-start gap-2">
                   <span className="mt-1 text-auditor-500">•</span>
                   <span>Speak clearly and at a measured pace</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="mt-1 text-auditor-500">•</span>
+                  <span>Maintain eye contact with the camera to show confidence</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-1 text-auditor-500">•</span>
