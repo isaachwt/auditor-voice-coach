@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
@@ -6,6 +5,7 @@ import FeedbackSummary from "@/components/FeedbackSummary";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
+import { Trophy } from "lucide-react";
 
 const Results = () => {
   const navigate = useNavigate();
@@ -122,6 +122,29 @@ const Results = () => {
                 ))}
               </div>
             </div>
+            
+            {/* Leaderboard Promo */}
+            <Card className="glass-panel overflow-hidden bg-gradient-to-r from-auditor-50/50 to-auditor-100/50 dark:from-auditor-900/50 dark:to-auditor-800/50">
+              <CardContent className="p-6">
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-auditor-500/20 flex items-center justify-center">
+                      <Trophy size={20} className="text-auditor-500" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-lg">See How You Rank</h3>
+                      <p className="text-sm text-muted-foreground">Compare your scores with other candidates</p>
+                    </div>
+                  </div>
+                  <Button 
+                    onClick={() => navigate('/leaderboard')}
+                    className="bg-auditor-500 hover:bg-auditor-600 text-white"
+                  >
+                    View Leaderboard
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
             
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row justify-center gap-4 pt-6">

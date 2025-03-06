@@ -43,6 +43,9 @@ const Header = () => {
           <NavLink to="/interview" active={location.pathname === "/interview"}>
             Practice
           </NavLink>
+          <NavLink to="/leaderboard" active={location.pathname === "/leaderboard"}>
+            Leaderboard
+          </NavLink>
         </nav>
         
         <div className="flex items-center gap-3">

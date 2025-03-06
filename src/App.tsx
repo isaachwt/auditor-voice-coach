@@ -9,6 +9,7 @@ import Waitlist from "./pages/Waitlist";
 import NotFound from "./pages/NotFound";
 import Interview from "./pages/Interview";
 import Results from "./pages/Results";
+import Leaderboard from "./pages/Leaderboard";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +24,7 @@ const App = () => (
           <Route path="/waitlist" element={<Waitlist />} />
           <Route path="/interview" element={<Interview />} />
           <Route path="/results" element={<Results />} />
+          <Route path="/leaderboard" element={<Leaderboard />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
