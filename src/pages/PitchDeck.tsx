@@ -3,7 +3,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { ChartBar, Target, Users, TrendingUp, LightBulb, HandCoins, ShieldCheck, Rocket } from "lucide-react";
+import { ChartBar, Target, Users, TrendingUp, Lightbulb, HandCoins, ShieldCheck, Rocket } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const PitchDeck = () => {
