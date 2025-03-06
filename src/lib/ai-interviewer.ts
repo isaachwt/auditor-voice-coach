@@ -1,4 +1,3 @@
-
 import { toast } from "@/hooks/use-toast";
 
 // Types for our API responses
@@ -129,25 +128,57 @@ export const generateFeedback = async (responses: Blob[]): Promise<AIFeedbackRes
   }
 };
 
-// Text to speech function using AudioContext
-export const textToSpeech = async (text: string): Promise<AudioBuffer | null> => {
+// Text to speech function using ElevenLabs API
+export const textToSpeech = async (text: string, apiKey?: string): Promise<AudioBuffer | null> => {
   try {
-    // Mock implementation for now
-    console.log("TTS would say:", text);
+    if (!apiKey) {
+      console.warn("ElevenLabs API key not provided");
+      return null;
+    }
+
+    // Create headers with API key
+    const headers = new Headers();
+    headers.append("xi-api-key", apiKey);
+    headers.append("Content-Type", "application/json");
+
+    // Request body
+    const body = JSON.stringify({
+      text: text,
+      model_id: "eleven_multilingual_v2",
+      voice_id: "pFZP5JQG7iQjIQuC4Bku", // Lily voice
+      voice_settings: {
+        stability: 0.5,
+        similarity_boost: 0.5,
+      }
+    });
+
+    // Make API call to ElevenLabs
+    console.log("Calling ElevenLabs API for text:", text);
+    const response = await fetch("https://api.elevenlabs.io/v1/text-to-speech/pFZP5JQG7iQjIQuC4Bku/stream", {
+      method: "POST",
+      headers: headers,
+      body: body
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`ElevenLabs API error: ${response.status} - ${errorText}`);
+    }
+
+    // Get the audio buffer
+    const audioData = await response.arrayBuffer();
     
-    // In a real implementation, this would call the ElevenLabs API
-    // For now, we just create a dummy audio context to test our types
-    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    // Create AudioContext and decode audio
+    const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
     const audioContext = new AudioContextClass();
-    
-    // Just creating an empty buffer for demonstration
-    const emptyBuffer = await audioContext.decodeAudioData(
-      new ArrayBuffer(0) // Empty buffer
-    ).catch(() => null);
-    
-    return emptyBuffer;
+    return await audioContext.decodeAudioData(audioData);
   } catch (error) {
     console.error("Text to speech error:", error);
+    toast({
+      title: "Text-to-Speech Error",
+      description: "Failed to generate speech. Please check your API key.",
+      variant: "destructive",
+    });
     return null;
   }
 };

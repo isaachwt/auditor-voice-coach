@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import InterviewSetup, { InterviewConfig } from "@/components/InterviewSetup";
 import VoiceRecorder from "@/components/VoiceRecorder";
 import QuestionCard from "@/components/QuestionCard";
+import ElevenLabsApiKey from "@/components/ElevenLabsApiKey";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Card, CardContent } from "@/components/ui/card";
@@ -30,6 +31,8 @@ const Interview = () => {
   const [isAiSpeaking, setIsAiSpeaking] = useState(false);
   const [isListening, setIsListening] = useState(false);
   const [questions, setQuestions] = useState<Question[]>([]);
+  const [elevenLabsApiKey, setElevenLabsApiKey] = useState<string>("");
+  const [apiKeyProvided, setApiKeyProvided] = useState<boolean>(false);
 
   // Audio context for TTS
   const audioContextRef = useRef<AudioContext | null>(null);
@@ -47,14 +50,23 @@ const Interview = () => {
     };
   }, []);
   
+  // Handle API key submission
+  const handleApiKeySubmit = (key: string) => {
+    setElevenLabsApiKey(key);
+    setApiKeyProvided(!!key);
+  };
+  
   // Play TTS audio
   const playAudio = async (audioBuffer: AudioBuffer | null) => {
-    if (!audioBuffer) return;
+    if (!audioBuffer) {
+      setIsAiSpeaking(false);
+      return;
+    }
     
     try {
       // Create audio context if it doesn't exist
       if (!audioContextRef.current) {
-        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
         audioContextRef.current = new AudioContextClass();
       }
       
@@ -88,6 +100,15 @@ const Interview = () => {
   
   // Handle starting the interview with the selected configuration
   const handleStartInterview = async (interviewConfig: InterviewConfig) => {
+    if (!apiKeyProvided) {
+      toast({
+        title: "API Key Required",
+        description: "Please provide your ElevenLabs API key to start the interview.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
     setIsProcessing(true);
     
     try {
@@ -115,7 +136,7 @@ const Interview = () => {
       
       // Play the first question using TTS
       setIsAiSpeaking(true);
-      const audioBuffer = await textToSpeech(firstQuestion);
+      const audioBuffer = await textToSpeech(firstQuestion, elevenLabsApiKey);
       await playAudio(audioBuffer);
       
       // Start the interview
@@ -176,7 +197,7 @@ const Interview = () => {
       
       // Play the next question using TTS
       setIsAiSpeaking(true);
-      const audioBuffer = await textToSpeech(response.question);
+      const audioBuffer = await textToSpeech(response.question, elevenLabsApiKey);
       await playAudio(audioBuffer);
       
       setIsProcessing(false);
@@ -251,7 +272,16 @@ const Interview = () => {
               Practice your auditing interview skills with our AI interviewer powered by GPT-4o mini.
               The AI will ask you 5 questions, listen to your responses, and provide detailed feedback.
             </p>
-            <InterviewSetup onStart={handleStartInterview} isProcessing={isProcessing} />
+            
+            {/* ElevenLabs API Key Component */}
+            <div className="mb-8">
+              <ElevenLabsApiKey onKeySubmit={handleApiKeySubmit} />
+            </div>
+            
+            {/* Only show interview setup if API key is provided */}
+            {apiKeyProvided && (
+              <InterviewSetup onStart={handleStartInterview} isProcessing={isProcessing} />
+            )}
           </div>
         ) : (
           <div className="max-w-3xl mx-auto space-y-8">
