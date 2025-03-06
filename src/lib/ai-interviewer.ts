@@ -142,14 +142,11 @@ export const textToSpeech = async (text: string, apiKey?: string): Promise<Audio
     headers.append("xi-api-key", apiKey);
     headers.append("Content-Type", "application/json");
 
-    // Use the requested voice ID: UcqZLa941Kkt8ZhEEybf
-    const voiceId = "UcqZLa941Kkt8ZhEEybf";
-    
     // Request body
     const body = JSON.stringify({
       text: text,
       model_id: "eleven_multilingual_v2",
-      voice_id: voiceId,
+      voice_id: "pFZP5JQG7iQjIQuC4Bku", // Lily voice
       voice_settings: {
         stability: 0.5,
         similarity_boost: 0.5,
@@ -158,7 +155,7 @@ export const textToSpeech = async (text: string, apiKey?: string): Promise<Audio
 
     // Make API call to ElevenLabs
     console.log("Calling ElevenLabs API for text:", text);
-    const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}/stream`, {
+    const response = await fetch("https://api.elevenlabs.io/v1/text-to-speech/pFZP5JQG7iQjIQuC4Bku/stream", {
       method: "POST",
       headers: headers,
       body: body

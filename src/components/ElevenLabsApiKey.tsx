@@ -27,7 +27,7 @@ const ElevenLabsApiKey: React.FC<ElevenLabsApiKeyProps> = ({ onKeySubmit }) => {
       </CardHeader>
       <CardContent>
         <div className="text-sm text-muted-foreground">
-          Using ElevenLabs voice ID "UcqZLa941Kkt8ZhEEybf" for high-quality voice synthesis. The AI interviewer will speak the questions aloud.
+          Using ElevenLabs for high-quality voice synthesis. The AI interviewer will speak the questions aloud.
         </div>
       </CardContent>
     </Card>
