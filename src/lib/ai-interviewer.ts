@@ -1,3 +1,4 @@
+
 import { toast } from "@/hooks/use-toast";
 
 // Types for our API responses
@@ -141,11 +142,11 @@ export const textToSpeech = async (text: string, apiKey?: string): Promise<Audio
     headers.append("xi-api-key", apiKey);
     headers.append("Content-Type", "application/json");
 
-    // Request body - updated to use the requested voice ID
+    // Request body - using a default voice ID
     const body = JSON.stringify({
       text: text,
       model_id: "eleven_multilingual_v2",
-      voice_id: "UcqZLa941Kkt8ZhEEybf", // Updated voice ID as requested
+      voice_id: "pNInz6obpgDQGcFmaJgB", // Reverted to a known working voice ID
       voice_settings: {
         stability: 0.5,
         similarity_boost: 0.5,
@@ -154,7 +155,7 @@ export const textToSpeech = async (text: string, apiKey?: string): Promise<Audio
 
     // Make API call to ElevenLabs
     console.log("Calling ElevenLabs API for text:", text);
-    const response = await fetch("https://api.elevenlabs.io/v1/text-to-speech/UcqZLa941Kkt8ZhEEybf/stream", {
+    const response = await fetch("https://api.elevenlabs.io/v1/text-to-speech/pNInz6obpgDQGcFmaJgB/stream", {
       method: "POST",
       headers: headers,
       body: body
