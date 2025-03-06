@@ -8,7 +8,6 @@ import Index from "./pages/Index";
 import Waitlist from "./pages/Waitlist";
 import NotFound from "./pages/NotFound";
 import Interview from "./pages/Interview";
-import PitchDeck from "./pages/PitchDeck";
 
 const queryClient = new QueryClient();
 
@@ -22,7 +21,6 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/waitlist" element={<Waitlist />} />
           <Route path="/interview" element={<Interview />} />
-          <Route path="/pitch-deck" element={<PitchDeck />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
