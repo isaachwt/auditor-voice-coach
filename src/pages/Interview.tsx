@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
@@ -7,6 +6,7 @@ import VoiceRecorder from "@/components/VoiceRecorder";
 import WebcamView from "@/components/WebcamView";
 import QuestionCard from "@/components/QuestionCard";
 import ElevenLabsApiKey from "@/components/ElevenLabsApiKey";
+import LiveTranscription from "@/components/LiveTranscription";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Card, CardContent } from "@/components/ui/card";
@@ -33,6 +33,7 @@ const Interview = () => {
   const [isListening, setIsListening] = useState(false);
   const [questions, setQuestions] = useState<Question[]>([]);
   const [elevenLabsApiKey, setElevenLabsApiKey] = useState<string>("");
+  const [currentTranscript, setCurrentTranscript] = useState<string>("");
   
   // No need for apiKeyProvided state since we're providing it automatically
   const apiKeyProvided = true;
@@ -52,6 +53,11 @@ const Interview = () => {
       }
     };
   }, []);
+  
+  // Handle transcript updates
+  const handleTranscriptUpdate = (text: string) => {
+    setCurrentTranscript(text);
+  };
   
   // Handle API key submission
   const handleApiKeySubmit = (key: string) => {
@@ -153,6 +159,7 @@ const Interview = () => {
   const handleRecordingStart = () => {
     setIsRecording(true);
     setIsListening(true);
+    setCurrentTranscript(""); // Reset transcript when recording starts
   };
   
   // Handle when a recording is completed
@@ -246,6 +253,7 @@ const Interview = () => {
       audioSourceRef.current.stop();
       audioSourceRef.current = null;
     }
+    setCurrentTranscript("");
   };
   
   // Calculate progress percentage
@@ -309,6 +317,12 @@ const Interview = () => {
             <WebcamView
               isRecording={isRecording}
               isActive={!isProcessing && !isAiSpeaking}
+            />
+            
+            {/* Live Transcription - New component */}
+            <LiveTranscription 
+              isActive={isRecording && !isAiSpeaking && !isProcessing}
+              onTranscriptionUpdate={handleTranscriptUpdate}
             />
             
             {/* Voice recorder */}
